@@ -1,0 +1,5 @@
+src/main/*
+!src/main/vigenere
+
+bin/main/*
+!bin/main/vigenere
