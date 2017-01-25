@@ -16,7 +16,7 @@ public class VigenereHandler {
         String vigenereGen;
         System.out.println("Enter a Vigenere Cipher Key:");
         vigenereGen = br.readLine(); 
-        MersenneTwister mt = new MersenneTwister(AlphaNumericToNumeric.convert(vigenereGen));
+        MersenneTwister mt = new MersenneTwister(vigenereGen.hashCode());
         char[][] vigenereKey=new char[26][26];
         //first is keyword
         //second is message
@@ -24,9 +24,6 @@ public class VigenereHandler {
         char[] chrsmaster = {
         		'A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z'
         };
-
-        //TEST
-        System.out.println(AlphaNumericToNumeric.convert(vigenereGen));
         
         for(int i=0;i<26;i++) {
         	char[] chrs=Arrays.copyOf(chrsmaster, 26);
@@ -72,14 +69,17 @@ public class VigenereHandler {
             
             System.out.println("Encrypt or Decrypt? (E/D)");
             if(br.readLine().equalsIgnoreCase("e")) {
-
-
+            	// encrypt
+            	
             	for(char c:ichars) {
+            		
+            		// looping
             		char k = kchars[ik];
             		ik++;
             		if(!(ik<length)) ik=0;
-            		// looping
-            		retn.append(
+            		
+            		if(!Character.isAlphabetic(c)) retn.append(c);
+            		else retn.append(
             				vigenereKey[getNum(k)][getNum(c)]
             		);
             		// add it
@@ -94,12 +94,18 @@ public class VigenereHandler {
             		char currentkeywordletter = kchars[ik];
             		ik++;
             		if(!(ik<length)) ik=0;
-            		// looping
-            		char[] chrs = vigenereKey[getNum(currentkeywordletter)];
-            		for(int i=0;i<chrs.length;i++) {
-            			if(chrs[i]==c) {
-            				retn.append((char)(i+65));
+            			// looping
+            		if(Character.isAlphabetic(c)) {
+            			char[] chrs = vigenereKey[getNum(currentkeywordletter)];
+            			for(int i=0;i<chrs.length;i++) {
+            				if(chrs[i]==c) {
+            					retn.append((char)(i+65));
+            				}
             			}
+            		} else {
+            			// nonalphabetic
+            	
+            			retn.append(c);
             		}
             	}
             	System.out.println(retn.toString());
